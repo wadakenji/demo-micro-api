@@ -1,0 +1,23 @@
+{
+  "name": "yorisoi-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "wadakenji",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-server-micro": "^2.14.3",
+    "dotenv": "^8.2.0",
+    "graphql": "^15.1.0",
+    "mariadb": "^2.4.0",
+    "micro": "^9.3.4",
+    "sequelize": "^5.21.12"
+  },
+  "devDependencies": {
+    "micro-dev": "^3.0.0"
+  },
+  "scripts": {
+    "dev": "micro-dev",
+    "start": "micro",
+    "sync": "node db/sync.js"
+  }
+}
