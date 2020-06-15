@@ -2,3 +2,4 @@ docker/node/src/node_modules
 docker/node/src/dist
 docker/mariadb/data
 .idea
+*.log
