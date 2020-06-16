@@ -5,6 +5,7 @@ module.exports = [
     lastName: 'Sogawa',
     facilityAdmin: true,
     corporationAdmin: true,
+    systemAdmin: true,
     login: [{
       username: 'sogawa',
       password: 'password'
@@ -16,6 +17,7 @@ module.exports = [
     lastName: 'Oka',
     facilityAdmin: true,
     corporationAdmin: true,
+    systemAdmin: true,
     login: [{
       username: 'oka',
       password: 'password'
@@ -27,6 +29,7 @@ module.exports = [
     lastName: 'Wada',
     facilityAdmin: true,
     corporationAdmin: true,
+    systemAdmin: true,
     login: [{
       username: 'wada',
       password: 'password'

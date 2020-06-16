@@ -28,6 +28,10 @@ module.exports = (sequelize: Sequelize) => {
     corporationAdmin: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
+    },
+    systemAdmin: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     }
   }, {
     underscored: true,
