@@ -2,7 +2,7 @@ import {ApolloServer} from 'apollo-server-micro'
 import * as jwt from 'jsonwebtoken'
 
 import resolvers from './resolvers'
-import typeDefs from './typeDefs'
+import typeDefs from './schemas'
 
 const CONFIG_AUTH = require('./config/authentication.json')
 

@@ -5,5 +5,6 @@ export default gql`
         sayHello(name: String): String
         getStaffs: [Staff]
         getMe: Me
+        getUsers: [User]
     }
 `

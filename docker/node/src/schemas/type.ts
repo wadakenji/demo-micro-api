@@ -16,5 +16,12 @@ export default gql`
     }
     type Me {
         id: Int
+        facilityAdmin: Boolean
+        corporationAdmin: Boolean
+    }
+    type User {
+        id: ID!
+        firstName: String
+        lastName: String
     }
 `
