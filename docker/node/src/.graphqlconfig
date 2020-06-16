@@ -1,8 +1,9 @@
 {
   "name": "Untitled GraphQL Schema",
   "schemaPath": "schema.graphql",
-  "excludes": [
-    "./dist"
+  "includes": [
+    "./resolvers",
+    "./schemas"
   ],
   "extensions": {
     "endpoints": {
@@ -11,7 +12,7 @@
         "headers": {
           "user-agent": "JS GraphQL"
         },
-        "introspect": true
+        "introspect": false
       }
     }
   }
