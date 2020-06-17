@@ -24,4 +24,9 @@ export default gql`
         firstName: String
         lastName: String
     }
+    input UserInfoInput {
+        bodyTemperature: Float
+        bloodPressure: Int
+        pulse: Int
+    }
 `

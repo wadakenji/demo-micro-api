@@ -1,13 +1,14 @@
 import {AuthenticationError} from "apollo-server-errors"
 import * as jwt from "jsonwebtoken"
 
-import {findStaffByLoginUsername} from '../models/database'
+import * as models from '../models/database'
+import {pubsub} from "./subscription"
 
 const CONFIG_AUTH = require('../config/authentication.json')
 
 export default {
   login: async (_parent: any, args: {username: string, password: string}) => {
-    const staffRow = await findStaffByLoginUsername(args.username)
+    const staffRow = await models.findStaffByLoginUsername(args.username)
 
     if (!staffRow) throw new AuthenticationError('invalid username')
 
@@ -26,5 +27,10 @@ export default {
     )
 
     return {accessToken}
+  },
+
+  updateUserInfo: async (_parent: any, args: {userId: number, updateItems: {[key: string]: any}}) => {
+    await pubsub.publish('userInfoUpdated', {id: args.userId, ...args.updateItems})
+    return models.updateUserInfo(args.userId, args.updateItems)
   }
 }

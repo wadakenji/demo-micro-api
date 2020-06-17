@@ -40,3 +40,9 @@ export const findFacility = async (facilityId: number) => {
     where: {id: facilityId}
   })
 }
+
+export const updateUserInfo = async (userId: number, updateItems: {[key: string]: any}) => {
+  return models.userInfo.update(updateItems, {
+    where: {userId}
+  })
+}
