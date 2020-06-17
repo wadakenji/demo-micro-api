@@ -29,4 +29,10 @@ export default gql`
         bloodPressure: Int
         pulse: Int
     }
+    type UserInfoUpdate {
+        id: ID!
+        bodyTemperature: Float
+        bloodPressure: Int
+        pulse: Int
+    }
 `
