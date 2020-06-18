@@ -1,7 +1,5 @@
-import {ApolloServer, makeExecutableSchema} from 'apollo-server-micro'
+import {ApolloServer, makeExecutableSchema} from 'apollo-server'
 import * as jwt from 'jsonwebtoken'
-import {send} from 'micro'
-import {get, post, router} from 'microrouter'
 
 import resolvers from './resolvers'
 import typeDefs from './schemas'
@@ -10,8 +8,12 @@ const CONFIG_AUTH = require('./config/authentication.json')
 
 export const schema = makeExecutableSchema({typeDefs, resolvers})
 
-//contextにjwt認証結果を格納
-const context = async ({req}: {req: any}) => {
+const context = async ({req, connection}: {req: any, connection: any}) => {
+
+  //subscription context
+  if (connection) return connection.context
+
+  //jwt情報を格納
   if (!req.headers.authorization) return {
     authenticationError: 'no token'
   }
@@ -28,16 +30,10 @@ const context = async ({req}: {req: any}) => {
   }
 }
 
-const graphqlPath = '/graphql'
 const apolloServer = new ApolloServer({schema, context})
-const graphqlHandler = apolloServer.createHandler({path: graphqlPath})
 
-const app = router(
-  get('/', () => 'hello, Micro'),
-  get('/about', () => 'about page'),
-  post(graphqlPath, graphqlHandler),
-  get(graphqlPath, graphqlHandler),
-  (_, res) => send(res, 404, 'Not Found'),
-)
+apolloServer.listen({port: 3000}).then(({url}) => {
+  console.log(`Server listening on ${url}`)
+})
 
-export default app
+
