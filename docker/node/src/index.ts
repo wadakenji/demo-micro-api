@@ -39,6 +39,20 @@ const subscriptions = {
 }
 
 const context = async ({req, connection}: {req: any, connection: any}) => {
+  console.log(gql(req.body.query))
+  console.log(gql(req.body.query).definitions.map(e => e.kind))
+
+  console.log(gql(req.body.query).definitions.map(e => {
+    if (e.kind === 'OperationDefinition' || e.kind === 'FragmentDefinition')
+      return e.selectionSet.selections.map(se => {
+        if (se.kind === 'Field')
+          return se.name
+        else return ''
+      })
+    else
+      return ''
+  }))
+
   //サブスクリプションのときはconnectionがtruthyな値になる
   if (connection) return connection.context
 
