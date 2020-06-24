@@ -3,6 +3,7 @@
 schema {
     query: Query
     mutation: Mutation
+    subscription: Subscription
 }
 
 type Me {
@@ -13,11 +14,13 @@ type Me {
 
 type Mutation {
     login(password: String!, username: String!): Tokens
+    updateUserInfo(updateItems: UserInfoInput, userId: ID!): [Int]
 }
 
 type Query {
     getMe: Me
     getStaffs: [Staff]
+    getUsers: [User]
     sayHello(name: String): String
 }
 
@@ -32,15 +35,29 @@ type Staff {
     updatedAt: String
 }
 
+type Subscription {
+    userInfoUpdated: UserInfoUpdate
+}
+
 type Tokens {
     accessToken: String
 }
 
-enum CacheControlScope {
-    PRIVATE
-    PUBLIC
+type User {
+    firstName: String
+    id: ID!
+    lastName: String
 }
 
+type UserInfoUpdate {
+    bloodPressure: Int
+    bodyTemperature: Float
+    id: ID!
+    pulse: Int
+}
 
-"The `Upload` scalar type represents a file upload."
-scalar Upload
+input UserInfoInput {
+    bloodPressure: Int
+    bodyTemperature: Float
+    pulse: Int
+}

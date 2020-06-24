@@ -1,4 +1,4 @@
-import {ApolloServer, makeExecutableSchema, gql} from 'apollo-server'
+import {ApolloServer, makeExecutableSchema} from 'apollo-server'
 import {AuthenticationError} from 'apollo-server-errors'
 import * as jwt from 'jsonwebtoken'
 
