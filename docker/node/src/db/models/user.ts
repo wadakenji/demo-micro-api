@@ -1,29 +1,29 @@
-import {Model, BuildOptions, Sequelize, DataTypes} from 'sequelize'
+import {Model, BuildOptions, DataTypes} from 'sequelize'
+import {ModelDefinition} from "../db"
 
-interface UserModel extends Model {
-  readonly facilityId: number
-  readonly firstName: string
-  readonly lastName: string
-}
+export const userModelName = 'user'
 
-type UserModelStatic = typeof Model & {
-  new(values?: object, options?: BuildOptions): UserModel;
-  associate: Function
-}
-module.exports = (sequelize: Sequelize) => {
-  const user = <UserModelStatic>sequelize.define('user', {
+export default <ModelDefinition>{
+  modelName: userModelName,
+  attributes: {
     facilityId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
-  }, {
+  },
+  options: {
     underscored: true,
-  })
-  user.associate = function (models: any) {
-    user.hasOne(models.userInfo)
-    user.belongsTo(models.facility, {foreignKey: 'facilityId'})
   }
-  return user
 }
+
+export interface UserModel extends Model {
+  readonly facilityId: number
+  readonly firstName: string
+  readonly lastName: string
+}
+
+export type UserModelCtor = {
+  new(values?: object, options?: BuildOptions): UserModel;
+} & typeof Model

@@ -1,25 +1,25 @@
-import {Model, BuildOptions, Sequelize, DataTypes} from 'sequelize'
+import {Model, BuildOptions, DataTypes} from 'sequelize'
+import {ModelDefinition} from "../db"
 
-interface CorporationModel extends Model {
-  readonly name: string
-}
+export const corporationModelName = 'corporation'
 
-type CorporationModelStatic = typeof Model & {
-  new(values?: object, options?: BuildOptions): CorporationModel;
-  associate: Function
-}
-
-module.exports = (sequelize: Sequelize) => {
-  const corporation = <CorporationModelStatic>sequelize.define('corporation', {
+export default <ModelDefinition>{
+  modelName: corporationModelName,
+  attributes: {
     name: {
       type: DataTypes.STRING,
       allowNull: false
     }
-  }, {
+  },
+  options: {
     underscored: true,
-  })
-  corporation.associate = function (models: any) {
-    corporation.hasMany(models.facility)
   }
-  return corporation
 }
+
+export interface CorporationModel extends Model {
+  readonly name: string
+}
+
+export type CorporationModelCtor = {
+  new(values?: object, options?: BuildOptions): CorporationModel;
+} & typeof Model

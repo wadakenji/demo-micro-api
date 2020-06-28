@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   {
     facilityId: 1,
     firstName: 'Isamu',

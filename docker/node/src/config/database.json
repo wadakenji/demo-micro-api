@@ -12,21 +12,21 @@
     }
   },
   "test": {
-    "use_env_variable": "DATABASE_URL",
+    "useEnvVariable": "DATABASE_URL",
     "timezone": "Asia/Tokyo",
     "dialectOptions": {
       "timezone": "Asia/Tokyo"
     }
   },
   "staging": {
-    "use_env_variable": "DATABASE_URL",
+    "useEnvVariable": "DATABASE_URL",
     "timezone": "Asia/Tokyo",
     "dialectOptions": {
       "timezone": "Asia/Tokyo"
     }
   },
   "production": {
-    "use_env_variable": "DATABASE_URL",
+    "useEnvVariable": "DATABASE_URL",
     "timezone": "Asia/Tokyo",
     "dialectOptions": {
       "timezone": "Asia/Tokyo"

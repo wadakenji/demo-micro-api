@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   {
     corporationId: 1,
     name: 'はまちデイサービス',

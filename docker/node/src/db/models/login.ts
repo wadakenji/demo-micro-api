@@ -1,18 +1,11 @@
-import {Model, BuildOptions, Sequelize, DataTypes} from 'sequelize'
+import {Model, BuildOptions, DataTypes} from 'sequelize'
+import {ModelDefinition} from "../db"
 
-interface LoginModel extends Model {
-  readonly staffId: number
-  readonly username: string
-  readonly password: string
-}
+export const loginModelName = 'login'
 
-type LoginModelStatic = typeof Model & {
-  new(values?: object, options?: BuildOptions): LoginModel;
-  associate: Function
-}
-
-module.exports = (sequelize: Sequelize) => {
-  const login = <LoginModelStatic>sequelize.define('login', {
+export default <ModelDefinition>{
+  modelName: loginModelName,
+  attributes: {
     staffId: {
       type: DataTypes.INTEGER,
       allowNull: false
@@ -23,11 +16,18 @@ module.exports = (sequelize: Sequelize) => {
       allowNull: false
     },
     password: DataTypes.STRING
-  }, {
+  },
+  options: {
     underscored: true,
-  })
-  login.associate = function (models: any) {
-    login.belongsTo(models.staff, {foreignKey: 'staffId'})
   }
-  return login
 }
+
+export interface LoginModel extends Model {
+  readonly staffId: number
+  readonly username: string
+  readonly password: string
+}
+
+export type LoginModelCtor = {
+  new(values?: object, options?: BuildOptions): LoginModel;
+} & typeof Model

@@ -1,17 +1,11 @@
-import {Model, BuildOptions, Sequelize, DataTypes} from 'sequelize'
+import {Model, BuildOptions, DataTypes} from 'sequelize'
+import {ModelDefinition} from "../db"
 
-interface FacilityModel extends Model {
-  readonly corporationId: number
-  readonly name: string
-}
+export const facilityModelName = 'facility'
 
-type FacilityModelStatic = typeof Model & {
-  new(values?: object, options?: BuildOptions): FacilityModel;
-  associate: Function
-}
-
-module.exports = (sequelize: Sequelize) => {
-  const facility = <FacilityModelStatic>sequelize.define('facility', {
+export default <ModelDefinition>{
+  modelName: facilityModelName,
+  attributes: {
     corporationId: {
       type: DataTypes.INTEGER,
       allowNull: false
@@ -20,13 +14,17 @@ module.exports = (sequelize: Sequelize) => {
       type: DataTypes.STRING,
       allowNull: false
     }
-  }, {
+  },
+  options: {
     underscored: true,
-  })
-  facility.associate = function (models: any) {
-    facility.belongsTo(models.corporation, {foreignKey: 'corporationId'})
-    facility.hasMany(models.staff)
-    facility.hasMany(models.user)
   }
-  return facility
 }
+
+export interface FacilityModel extends Model {
+  readonly corporationId: number
+  readonly name: string
+}
+
+export type FacilityModelCtor = {
+  new(values?: object, options?: BuildOptions): FacilityModel;
+} & typeof Model

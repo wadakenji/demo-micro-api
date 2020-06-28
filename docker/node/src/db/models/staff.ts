@@ -1,20 +1,11 @@
-import {Model, BuildOptions, Sequelize, DataTypes} from 'sequelize'
+import {Model, BuildOptions, DataTypes} from 'sequelize'
+import {ModelDefinition} from "../db"
 
-interface StaffModel extends Model {
-  readonly facilityId: number
-  readonly firstName: string
-  readonly lastName: string
-  readonly facilityAdmin: boolean
-  readonly corporationAdmin: boolean
-}
+export const staffModelName = 'staff'
 
-type StaffModelStatic = typeof Model & {
-  new(values?: object, options?: BuildOptions): StaffModel;
-  associate: Function
-}
-
-module.exports = (sequelize: Sequelize) => {
-  const staff = <StaffModelStatic>sequelize.define('staff', {
+export default <ModelDefinition>{
+  modelName: staffModelName,
+  attributes: {
     facilityId: {
       type: DataTypes.INTEGER,
       allowNull: false
@@ -33,12 +24,20 @@ module.exports = (sequelize: Sequelize) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     }
-  }, {
+  },
+  options: {
     underscored: true,
-  })
-  staff.associate = (models: any) => {
-    staff.belongsTo(models.facility, {foreignKey: 'facilityId'})
-    staff.hasOne(models.login)
   }
-  return staff
 }
+
+export interface StaffModel extends Model {
+  readonly facilityId: number
+  readonly firstName: string
+  readonly lastName: string
+  readonly facilityAdmin: boolean
+  readonly corporationAdmin: boolean
+}
+
+export type StaffModelCtor = {
+  new(values?: object, options?: BuildOptions): StaffModel;
+} & typeof Model

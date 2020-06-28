@@ -1,19 +1,11 @@
-import {Model, BuildOptions, Sequelize, DataTypes} from 'sequelize'
+import {Model, BuildOptions, DataTypes} from 'sequelize'
+import {ModelDefinition} from "../db"
 
-interface UserInfoModel extends Model {
-  readonly userId: number
-  readonly bodyTemperature: number
-  readonly bloodPressure: number
-  readonly pulse: number
-}
+export const userInfoModelName = 'userInfo'
 
-type UserInfoModelStatic = typeof Model & {
-  new(values?: object, options?: BuildOptions): UserInfoModel;
-  associate: Function
-}
-
-module.exports = (sequelize: Sequelize) => {
-  const userInfo = <UserInfoModelStatic>sequelize.define('userInfo', {
+export default <ModelDefinition>{
+  modelName: userInfoModelName,
+  attributes: {
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false
@@ -21,11 +13,19 @@ module.exports = (sequelize: Sequelize) => {
     bodyTemperature: DataTypes.FLOAT,
     bloodPressure: DataTypes.INTEGER,
     pulse: DataTypes.INTEGER
-  }, {
+  },
+  options: {
     underscored: true,
-  })
-  userInfo.associate = function (models: any) {
-    userInfo.belongsTo(models.user, {foreignKey: 'userId'})
   }
-  return userInfo
 }
+
+export interface UserInfoModel extends Model {
+  readonly userId: number
+  readonly bodyTemperature: number
+  readonly bloodPressure: number
+  readonly pulse: number
+}
+
+export type UserInfoModelCtor = {
+  new(values?: object, options?: BuildOptions): UserInfoModel;
+} & typeof Model
