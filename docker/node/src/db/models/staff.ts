@@ -1,5 +1,5 @@
 import {Model, BuildOptions, DataTypes} from 'sequelize'
-import {ModelDefinition} from "../db"
+import {DefaultModel, ModelDefinition} from "../db"
 
 export const staffModelName = 'staff'
 
@@ -30,12 +30,14 @@ export default <ModelDefinition>{
   }
 }
 
-export interface StaffModel extends Model {
+export interface StaffModel extends DefaultModel {
   readonly facilityId: number
   readonly firstName: string
   readonly lastName: string
   readonly facilityAdmin: boolean
   readonly corporationAdmin: boolean
+  readonly systemAdmin: boolean
+  // readonly login: any
 }
 
 export type StaffModelCtor = {

@@ -1,5 +1,10 @@
-import {ApolloServer, makeExecutableSchema, gql} from 'apollo-server'
+import {
+  ApolloServer, makeExecutableSchema,
+  // gql
+} from 'apollo-server'
 import {AuthenticationError} from 'apollo-server-errors'
+import {Request} from 'express'
+import {ExecutionParams} from "subscriptions-transport-ws"
 import * as jwt from 'jsonwebtoken'
 
 import resolvers from './resolvers'
@@ -9,7 +14,7 @@ const CONFIG_AUTH = require('./config/authentication.json')
 
 export const schema = makeExecutableSchema({typeDefs, resolvers})
 
-const verifyToken = (authorizationHeader: string) => {
+const verifyToken = (authorizationHeader: string | undefined) => {
   if (!authorizationHeader) return {
     authenticationError: 'no token'
   }
@@ -30,6 +35,7 @@ const subscriptions = {
   //サブスクリプションを始める（openingハンドシェイク）ときに発火する
   //connectionParamsにはリクエストヘッダーの一部が格納されている（多分）
   onConnect: (connectionParams: any) => {
+    // console.log(connectionParams)
     const authContext = verifyToken(connectionParams.authorization)
     //認証エラーとなっていればエラーレスポンスを返す
     if (authContext.authenticationError) throw new AuthenticationError(authContext.authenticationError)
@@ -38,20 +44,19 @@ const subscriptions = {
   }
 }
 
-const context = async ({req, connection}: {req: any, connection: any}) => {
-  console.log(gql(req.body.query))
-  console.log(gql(req.body.query).definitions.map(e => e.kind))
-
-  console.log(gql(req.body.query).definitions.map(e => {
-    if (e.kind === 'OperationDefinition' || e.kind === 'FragmentDefinition')
-      return e.selectionSet.selections.map(se => {
-        if (se.kind === 'Field')
-          return se.name
-        else return ''
-      })
-    else
-      return ''
-  }))
+const context = async ({req, connection}: {req: Request, connection: ExecutionParams}) => {
+  // console.log(gql(req.body.query))
+  // console.log(gql(req.body.query).definitions.map(e => e.kind))
+  // console.log(gql(req.body.query).definitions.map(e => {
+  //   if (e.kind === 'OperationDefinition' || e.kind === 'FragmentDefinition')
+  //     return e.selectionSet.selections.map(se => {
+  //       if (se.kind === 'Field')
+  //         return se.name
+  //       else return ''
+  //     })
+  //   else
+  //     return ''
+  // }))
 
   //サブスクリプションのときはconnectionがtruthyな値になる
   if (connection) return connection.context

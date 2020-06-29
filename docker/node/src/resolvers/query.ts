@@ -19,8 +19,9 @@ export default {
     if (systemAdmin) return models.fetchUsers()
 
     if (corporationAdmin) {
-      const {corporationId} = await models.findFacility(facilityId)
-      return models.fetchUsersByCorporationId(corporationId)
+      const facility = await models.findFacility(facilityId)
+      if (!facility) throw new Error('invalid facility id')
+      return models.fetchUsersByCorporationId(facility.corporationId)
     }
 
     return models.fetchUsersByFacilityId(facilityId)

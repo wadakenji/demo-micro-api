@@ -1,48 +1,53 @@
-import models from '../../db/models'
+import {userModel, userInfoModel, staffModel, loginModel, facilityModel} from '../../db'
+import {StaffModel} from "../../db/models/staff"
+import {LoginModel} from "../../db/models/login"
+import {FacilityModel} from "../../db/models/facility"
+import {UserModel} from "../../db/models/user"
+import {UserInfoModel} from "../../db/models/userInfo"
 
 export const findStaffByLoginUsername = async (username: string) => {
-  return models.staff.findOne({
+  return <Promise<StaffModel & {login: LoginModel}>>staffModel.findOne({
     include: [{
-      model: models.login,
+      model: loginModel,
       where: {username}
     }]
   })
 }
 
 export const fetchStaffs = async () => {
-  return models.staff.findAll()
+  return staffModel.findAll<StaffModel>()
 }
 
 export const fetchUsers = async () => {
-  return models.user.findAll()
+  return userModel.findAll<UserModel>()
 }
 
 export const fetchUsersByFacilityId = async (facilityId: number) => {
-  return models.user.findAll({
+  return userModel.findAll({
     include: [{
-      model: models.facility,
+      model: facilityModel,
       where: {id: facilityId}
     }]
   })
 }
 
 export const fetchUsersByCorporationId = async (corporationId: number) => {
-  return models.user.findAll({
+  return userModel.findAll({
     include: [{
-      model: models.facility,
+      model: facilityModel,
       where: {corporationId},
     }]
   })
 }
 
 export const findFacility = async (facilityId: number) => {
-  return models.facility.findOne({
+  return facilityModel.findOne<FacilityModel>({
     where: {id: facilityId}
   })
 }
 
 export const updateUserInfo = async (userId: number, updateItems: {[key: string]: any}) => {
-  return models.userInfo.update(updateItems, {
+  return userInfoModel.update<UserInfoModel>(updateItems, {
     where: {userId}
   })
 }

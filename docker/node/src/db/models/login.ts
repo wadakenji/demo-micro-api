@@ -1,5 +1,5 @@
 import {Model, BuildOptions, DataTypes} from 'sequelize'
-import {ModelDefinition} from "../db"
+import {DefaultModel, ModelDefinition} from "../db"
 
 export const loginModelName = 'login'
 
@@ -22,7 +22,7 @@ export default <ModelDefinition>{
   }
 }
 
-export interface LoginModel extends Model {
+export interface LoginModel extends DefaultModel {
   readonly staffId: number
   readonly username: string
   readonly password: string
