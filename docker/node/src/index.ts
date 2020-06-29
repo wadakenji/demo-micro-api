@@ -9,6 +9,7 @@ import * as jwt from 'jsonwebtoken'
 
 import resolvers from './resolvers'
 import typeDefs from './schemas'
+import db from "./db"
 
 const CONFIG_AUTH = require('./config/authentication.json')
 
@@ -71,7 +72,8 @@ const apolloServer = new ApolloServer({
   subscriptions
 })
 
-apolloServer.listen({port: 3000}).then(({url}) => {
+apolloServer.listen({port: 3000}).then(async ({url}) => {
+  await db.sync()
   console.log(`Server listening on ${url}`)
 })
 

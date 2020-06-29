@@ -1,45 +1,32 @@
-import {Model, BuildOptions, DataTypes} from 'sequelize'
-import {DefaultModel, ModelDefinition} from "../db"
+import {Table, Column, Model, DataType, AllowNull, HasOne, ForeignKey, BelongsTo} from 'sequelize-typescript'
+import Login from "./login"
+import Facility from "./facility"
 
-export const staffModelName = 'staff'
+@Table({underscored: true})
+export default class Staff extends Model<Staff> {
 
-export default <ModelDefinition>{
-  modelName: staffModelName,
-  attributes: {
-    facilityId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    facilityAdmin: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
-    },
-    corporationAdmin: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
-    },
-    systemAdmin: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
-    }
-  },
-  options: {
-    underscored: true,
-  }
+  @ForeignKey(() => Facility)
+  @AllowNull(false)
+  @Column(DataType.INTEGER)
+  facilityId!: number
+
+  @Column(DataType.STRING)
+  firstName?: string
+
+  @Column(DataType.STRING)
+  lastName?: string
+
+  @AllowNull(false)
+  @Column(DataType.BOOLEAN)
+  facilityAdmin!: boolean
+
+  @AllowNull(false)
+  @Column(DataType.BOOLEAN)
+  systemAdmin!: boolean
+
+  @BelongsTo(() => Facility)
+  facility?: Facility
+
+  @HasOne(() => Login)
+  login?: Login
 }
-
-export interface StaffModel extends DefaultModel {
-  readonly facilityId: number
-  readonly firstName: string
-  readonly lastName: string
-  readonly facilityAdmin: boolean
-  readonly corporationAdmin: boolean
-  readonly systemAdmin: boolean
-  // readonly login: any
-}
-
-export type StaffModelCtor = {
-  new(values?: object, options?: BuildOptions): StaffModel;
-} & typeof Model

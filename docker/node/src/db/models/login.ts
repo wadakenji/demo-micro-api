@@ -1,33 +1,23 @@
-import {Model, BuildOptions, DataTypes} from 'sequelize'
-import {DefaultModel, ModelDefinition} from "../db"
+import {Table, Column, Model, DataType, AllowNull, ForeignKey, BelongsTo} from 'sequelize-typescript'
+import Staff from "./staff"
 
-export const loginModelName = 'login'
 
-export default <ModelDefinition>{
-  modelName: loginModelName,
-  attributes: {
-    staffId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    username: {
-      type: DataTypes.STRING,
-      unique: true,
-      allowNull: false
-    },
-    password: DataTypes.STRING
-  },
-  options: {
-    underscored: true,
-  }
+@Table({underscored: true})
+export default class Login extends Model<Login> {
+
+  @ForeignKey(() => Staff)
+  @AllowNull(false)
+  @Column(DataType.INTEGER)
+  staffId!: number
+
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  username!: string
+
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  password!: string
+
+  @BelongsTo(() => Staff)
+  staff?: Staff
 }
-
-export interface LoginModel extends DefaultModel {
-  readonly staffId: number
-  readonly username: string
-  readonly password: string
-}
-
-export type LoginModelCtor = {
-  new(values?: object, options?: BuildOptions): LoginModel;
-} & typeof Model

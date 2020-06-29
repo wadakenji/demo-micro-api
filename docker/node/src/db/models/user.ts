@@ -1,29 +1,26 @@
-import {Model, BuildOptions, DataTypes} from 'sequelize'
-import {ModelDefinition} from "../db"
+import {Table, Column, Model, DataType, AllowNull, ForeignKey, BelongsTo, HasOne} from 'sequelize-typescript'
+import Facility from "./facility"
+import UserInfo from "./userInfo"
 
-export const userModelName = 'user'
+@Table({underscored: true})
+export default class User extends Model<User> {
 
-export default <ModelDefinition>{
-  modelName: userModelName,
-  attributes: {
-    facilityId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-  },
-  options: {
-    underscored: true,
-  }
+  @ForeignKey(() => Facility)
+  @AllowNull(false)
+  @Column(DataType.INTEGER)
+  facilityId!: number
+
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  firstName!: string
+
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  lastName!: string
+
+  @BelongsTo(() => Facility)
+  facility?: Facility
+
+  @HasOne(() => UserInfo)
+  userInfo?: UserInfo
 }
-
-export interface UserModel extends Model {
-  readonly facilityId: number
-  readonly firstName: string
-  readonly lastName: string
-}
-
-export type UserModelCtor = {
-  new(values?: object, options?: BuildOptions): UserModel;
-} & typeof Model

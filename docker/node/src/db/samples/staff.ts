@@ -4,7 +4,6 @@ export default [
     firstName: 'Ryo',
     lastName: 'Sogawa',
     facilityAdmin: true,
-    corporationAdmin: true,
     systemAdmin: true,
     login: [{
       username: 'sogawa',
@@ -16,7 +15,6 @@ export default [
     firstName: 'Hidenobu',
     lastName: 'Oka',
     facilityAdmin: true,
-    corporationAdmin: true,
     systemAdmin: true,
     login: [{
       username: 'oka',
@@ -28,7 +26,6 @@ export default [
     firstName: 'Kenji',
     lastName: 'Wada',
     facilityAdmin: true,
-    corporationAdmin: true,
     systemAdmin: true,
     login: [{
       username: 'wada',

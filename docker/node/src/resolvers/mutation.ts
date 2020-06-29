@@ -12,16 +12,15 @@ export default {
 
     if (!staffRow) throw new AuthenticationError('invalid username')
 
-    const {id, facilityId, facilityAdmin, corporationAdmin, systemAdmin, login: {password}} = staffRow
+    const {id, facilityId, facilityAdmin, systemAdmin, login} = staffRow
 
-    if (password !== args.password) throw new AuthenticationError('invalid password')
+    if (login?.password !== args.password) throw new AuthenticationError('invalid password')
 
     const accessToken = jwt.sign(
       {
         id,
         facilityId,
         facilityAdmin,
-        corporationAdmin,
         systemAdmin
       }, CONFIG_AUTH.ACCESS_TOKEN_SECRET
     )

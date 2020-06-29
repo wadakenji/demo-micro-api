@@ -1,4 +1,5 @@
-import {Model, Options, ModelAttributes, ModelOptions} from "sequelize"
+import {Model, ModelAttributes, ModelOptions} from "sequelize"
+import {SequelizeOptions} from "sequelize-typescript"
 
 export interface ModelDefinition {
   modelName: string,
@@ -6,7 +7,7 @@ export interface ModelDefinition {
   options: ModelOptions
 }
 
-export interface DatabaseConfig extends Options {
+export interface DatabaseConfig extends SequelizeOptions {
   useEnvVariable?: string
 }
 

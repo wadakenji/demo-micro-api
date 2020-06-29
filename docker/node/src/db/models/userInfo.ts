@@ -1,31 +1,24 @@
-import {Model, BuildOptions, DataTypes} from 'sequelize'
-import {ModelDefinition} from "../db"
+import {Table, Column, Model, DataType, AllowNull, ForeignKey, BelongsTo} from 'sequelize-typescript'
+import User from "./user"
 
-export const userInfoModelName = 'userInfo'
 
-export default <ModelDefinition>{
-  modelName: userInfoModelName,
-  attributes: {
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    bodyTemperature: DataTypes.FLOAT,
-    bloodPressure: DataTypes.INTEGER,
-    pulse: DataTypes.INTEGER
-  },
-  options: {
-    underscored: true,
-  }
+@Table({underscored: true})
+export default class UserInfo extends Model<UserInfo> {
+
+  @ForeignKey(() => User)
+  @AllowNull(false)
+  @Column(DataType.INTEGER)
+  userId!: number
+
+  @Column(DataType.INTEGER)
+  bodyTemperature?: number
+
+  @Column(DataType.INTEGER)
+  bloodPressure?: number
+
+  @Column(DataType.INTEGER)
+  pulse?: number
+
+  @BelongsTo(() => User)
+  user?: User
 }
-
-export interface UserInfoModel extends Model {
-  readonly userId: number
-  readonly bodyTemperature: number
-  readonly bloodPressure: number
-  readonly pulse: number
-}
-
-export type UserInfoModelCtor = {
-  new(values?: object, options?: BuildOptions): UserInfoModel;
-} & typeof Model

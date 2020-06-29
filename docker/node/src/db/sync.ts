@@ -12,7 +12,7 @@ db.sync({
   for (let [key, value] of Object.entries(samples)) {
 
     //連結オプションを作成する
-    const include = Object.entries(db.model(key).associations).map(([_, v]) => ({model: v.target}))
+    const include = Object.entries(db.model(key).associations).map(([_, v]) => v.as)
 
     //データをインサートする
     await db.model(key).bulkCreate(value, {include})
